@@ -23,6 +23,7 @@ const lastnameInput = document.getElementById("last");
 const closeModalBtn = document.querySelector('.close');
 const birthDateInput = document.getElementById("birthdate");
 const quantityInput = document.getElementById("quantity");
+const form = document.querySelector("form");
 
 // launches modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -40,6 +41,8 @@ function validate(){
   console.log("Checkbox facultative cochée : "+checkBoxNotRequired.checked);
   if (validateFirstname() && validateLastname() && validateEmail() && validateBirthDate() && validateQuantity() && validateRadioChecked() && checkBoxRequired.checked){
     removeErrors();
+    validationMsg();
+    emptyInputs();
     console.log("TOUT EST VALIDE");
   } else {
 
@@ -109,6 +112,7 @@ function validateQuantity(){
 // closes modal form
 function closeModal(){
   modalbg.style.display = "none";
+  document.getElementById("validationMsg").remove();
 }
 
 // Verifies that the firstname input has something and more than 2 characters
@@ -215,5 +219,34 @@ function errorCheckbox(){
     errorMsg.classList.add("modalErrorMsg");
     errorMsg.innerText="Vous devez vérifier que vous acceptez les termes et conditions.";
     checkBoxRequired.parentElement.appendChild(errorMsg);
+  }
+}
+
+// Creates a validation msg
+function validationMsg(){
+  let validationMsg = document.createElement("div");
+  validationMsg.setAttribute("id","validationMsg");
+  let msg = document.createElement("p");
+  msg.innerText="Merci ! Votre réservation a été reçue.";
+  validationMsg.appendChild(msg);
+  form.prepend(validationMsg)
+}
+
+// empties the inputs
+function emptyInputs(){
+  firstnameInput.value="";
+  lastnameInput.value="";
+  emailInput.value="";
+  birthDateInput.value="";
+  quantityInput.value="";
+  uncheckRadios();
+}
+
+// unchecks the checked radio
+function uncheckRadios(){
+  for (radio of radios){
+    if(radio.checked){
+      radio.checked=false;
+    }
   }
 }
