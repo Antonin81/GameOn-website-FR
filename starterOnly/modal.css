@@ -112,7 +112,6 @@ main {
   border-radius: 2rem;
   text-align: justify;
 
-
 }
 
 .modal-btn {
@@ -539,3 +538,12 @@ footer {
   }
 }
 
+/* Validation msg */
+#validationMsg{
+  padding: 1rem;
+  background-color: #70b8a2;
+  color: black;
+  text-align: center;
+  margin: 0.5em;
+  border-radius: 7px;
+}
