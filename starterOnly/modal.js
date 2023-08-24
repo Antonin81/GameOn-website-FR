@@ -79,7 +79,7 @@ function validate(){
   }
 }
 
-// crée un bouton pour fermer la modale après validation
+// creates a button able to close the modal after validation
 function closeButton(){
   let closeButton = document.createElement("button");
   closeButton.setAttribute("class","btn-submit closeBtn");
@@ -239,7 +239,7 @@ function validationMsg(){
   modalBody.append(validationMsg)
 }
 
-// erase the inputs
+// erases the inputs
 function eraseInputs(){
   form.style.display="none";
 }
