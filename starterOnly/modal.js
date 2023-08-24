@@ -72,7 +72,6 @@ function validate(){
       errorRadio();
     }
     if(!checkBoxRequired.checked){
-      console.log('?');
       errorCheckbox();
     }
     console.log("INVALIDE");
