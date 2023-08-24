@@ -243,11 +243,3 @@ function validationMsg(){
 function eraseInputs(){
   form.style.display="none";
 }
-
-errorFirstname()
-errorLastname()
-errorEmail()
-errorBirthDate()
-errorQuantity()
-errorRadio()
-errorCheckbox()
