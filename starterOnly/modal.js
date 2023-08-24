@@ -31,15 +31,18 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // submits modal event
 function validate(){
   event.preventDefault();
-  console.log("Prénom : "+firstnameInput.value+", Validité : "+validateFirstname());
-  console.log("Nom : "+lastnameInput.value+", Validité : "+validateLastname());
-  console.log("Email : "+emailInput.value+", Validité : "+validateEmail());
-  console.log("Date de naissance : "+birthDateInput.value+", Validité : "+validateBirthDate());
-  console.log("Nombre de participation à des tournois : "+quantityInput.value+", Validité : "+validateQuantity());
-  console.log("Lieu de participation souhaité : "+radioChecked()+", Validité : "+validateRadioChecked());
-  console.log("Conditions générales cochées : "+checkBoxRequired.checked+", Validité : "+checkBoxRequired.checked);
-  console.log("Checkbox facultative cochée : "+checkBoxNotRequired.checked);
+  let result = {
+    "firstName" : firstnameInput.value,
+    "lastName" :lastnameInput.value,
+    "email" :emailInput.value,
+    "birthDate":birthDateInput.value,
+    "quantity":quantityInput.value,
+    "place":radioChecked(),
+    "checkBoxRequired":checkBoxRequired.checked,
+    "checkBoxNotRequired":checkBoxNotRequired.checked
+  }
   if (validateFirstname() && validateLastname() && validateEmail() && validateBirthDate() && validateQuantity() && validateRadioChecked() && checkBoxRequired.checked){
+    console.log(result);
     removeErrors();
     validationMsg();
     emptyInputs();
@@ -134,7 +137,20 @@ function validateEmail(){
 
 // Verifies that there is a birth date
 function validateBirthDate(){
-  return birthDateInput.value!="";
+  let currentDate = Date();
+  let birthDate = Date(birthDateInput.calue);
+
+  const ageDifference = currentDate.getFullYear() - birthDate.getFullYear();
+
+  if (
+    currentDate.getMonth() < birthDate.getMonth() ||
+    (currentDate.getMonth() === birthDate.getMonth() &&
+      currentDate.getDate() < birthDate.getDate())
+  ) {
+    ageDifference--;
+  }
+
+  return birthDateInput.value!="" && ageDiff >= 13;
 }
 
 // Removes error messages
@@ -184,7 +200,7 @@ function errorBirthDate(){
     let errorMsg=document.createElement("p");
     errorMsg.setAttribute("id","errorBirthDate");
     errorMsg.classList.add("modalErrorMsg");
-    errorMsg.innerText="Vous devez indiquer votre date de naissance.";
+    errorMsg.innerText="Vous devez indiquer votre date de naissance, vous devez avoir 13 ans ou plus.";
     birthDateInput.parentElement.appendChild(errorMsg);
   }
 }
