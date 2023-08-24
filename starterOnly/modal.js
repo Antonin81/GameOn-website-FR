@@ -24,6 +24,7 @@ const closeModalBtn = document.querySelector('.close');
 const birthDateInput = document.getElementById("birthdate");
 const quantityInput = document.getElementById("quantity");
 const form = document.querySelector("form");
+const modalBody = document.querySelector(".modal-body");
 
 // launches modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -45,7 +46,7 @@ function validate(){
     console.log(result);
     removeErrors();
     validationMsg();
-    emptyInputs();
+    eraseInputs();
     console.log("TOUT EST VALIDE");
   } else {
 
@@ -115,7 +116,6 @@ function validateQuantity(){
 // closes modal form
 function closeModal(){
   modalbg.style.display = "none";
-  document.getElementById("validationMsg").remove();
 }
 
 // Verifies that the firstname input has something and more than 2 characters
@@ -137,8 +137,8 @@ function validateEmail(){
 
 // Verifies that there is a birth date
 function validateBirthDate(){
-  let currentDate = Date();
-  let birthDate = Date(birthDateInput.calue);
+  let currentDate = new Date();
+  let birthDate = new Date(birthDateInput.value);
 
   const ageDifference = currentDate.getFullYear() - birthDate.getFullYear();
 
@@ -150,7 +150,7 @@ function validateBirthDate(){
     ageDifference--;
   }
 
-  return birthDateInput.value!="" && ageDiff >= 13;
+  return birthDateInput.value!="" && ageDifference >= 13;
 }
 
 // Removes error messages
@@ -243,26 +243,12 @@ function validationMsg(){
   let validationMsg = document.createElement("div");
   validationMsg.setAttribute("id","validationMsg");
   let msg = document.createElement("p");
-  msg.innerText="Merci ! Votre réservation a été reçue.";
+  msg.innerText="Merci pour votre inscription";
   validationMsg.appendChild(msg);
-  form.prepend(validationMsg)
+  modalBody.append(validationMsg)
 }
 
-// empties the inputs
-function emptyInputs(){
-  firstnameInput.value="";
-  lastnameInput.value="";
-  emailInput.value="";
-  birthDateInput.value="";
-  quantityInput.value="";
-  uncheckRadios();
-}
-
-// unchecks the checked radio
-function uncheckRadios(){
-  for (radio of radios){
-    if(radio.checked){
-      radio.checked=false;
-    }
-  }
+// erase the inputs
+function eraseInputs(){
+  form.style.display="none";
 }
