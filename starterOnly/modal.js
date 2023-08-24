@@ -46,6 +46,7 @@ function validate(){
     console.log(result);
     removeErrors();
     validationMsg();
+    closeButton();
     eraseInputs();
     console.log("TOUT EST VALIDE");
   } else {
@@ -77,6 +78,16 @@ function validate(){
     console.log("INVALIDE");
   }
 }
+
+// crée un bouton pour fermer la modale après validation
+function closeButton(){
+  let closeButton = document.createElement("button");
+  closeButton.setAttribute("class","btn-submit closeBtn");
+  closeButton.setAttribute("onClick","closeModal()");
+  closeButton.innerText="Fermer";
+  modalBody.append(closeButton);
+}
+
 
 // close modal event
 closeModalBtn.addEventListener("click", ()=>{
@@ -156,95 +167,65 @@ function validateBirthDate(){
 
 // Removes error messages
 function removeErrors(){
-  let errors=document.querySelectorAll(".modalErrorMsg");
+  let errors=document.querySelectorAll("[data-error-visible=true]");
   errors.forEach(error => {
-    error.remove();
-  });
-  let errorInputs=document.querySelectorAll(".text-control-wrong");
-  errorInputs.forEach(errorInput => {
-    errorInput.classList.remove("text-control-wrong");
+    error.setAttribute("data-error-visible","false");
   });
 }
 
 // Adds an error message under the firstname input
 function errorFirstname(){
-  if(document.getElementById("errorFirstname")==null){
-    let errorMsg=document.createElement("p");
-    errorMsg.setAttribute("id","errorFirstname");
-    errorMsg.classList.add("modalErrorMsg");
-    errorMsg.innerText="Veuillez entrer 2 caractères ou plus pour le champ du Prénom.";
-    firstnameInput.parentElement.appendChild(errorMsg);
-    firstnameInput.classList.add("text-control-wrong");
+  if(firstnameInput.parentNode.getAttribute("data-error-visible")!=true){
+    firstnameInput.parentNode.setAttribute("data-error-visible",true);
+    firstnameInput.parentNode.setAttribute("data-error","Veuillez entrer 2 caractères ou plus pour le champ du Prénom.");
   }
 }
 
 // Adds an error message under the lastname input
 function errorLastname(){
-  if(document.getElementById("errorLastname")==null){
-    let errorMsg=document.createElement("p");
-    errorMsg.setAttribute("id","errorLastname");
-    errorMsg.classList.add("modalErrorMsg");
-    errorMsg.innerText="Veuillez entrer 2 caractères ou plus pour le champ du Nom.";
-    lastnameInput.parentElement.appendChild(errorMsg);
-    lastnameInput.classList.add("text-control-wrong");
+  if(lastnameInput.parentNode.getAttribute("data-error-visible")!=true){
+    lastnameInput.parentNode.setAttribute("data-error-visible",true);
+    lastnameInput.parentNode.setAttribute("data-error","Veuillez entrer 2 caractères ou plus pour le champ du Nom.");
   }
 }
 
 // Adds an error message under the email input
 function errorEmail(){
-  if(document.getElementById("errorEmail")==null){
-    let errorMsg=document.createElement("p");
-    errorMsg.setAttribute("id","errorEmail");
-    errorMsg.classList.add("modalErrorMsg");
-    errorMsg.innerText="Votre adresse mail a un mauvais format.";
-    emailInput.parentElement.appendChild(errorMsg);
-    emailInput.classList.add("text-control-wrong");
+  if(emailInput.parentNode.getAttribute("data-error-visible")!=true){
+    emailInput.parentNode.setAttribute("data-error-visible",true);
+    emailInput.parentNode.setAttribute("data-error","Votre adresse mail a un mauvais format.");
   }
 }
 
 // Adds an error message under the birthDate input
 function errorBirthDate(){
-  if(document.getElementById("errorBirthDate")==null){
-    let errorMsg=document.createElement("p");
-    errorMsg.setAttribute("id","errorBirthDate");
-    errorMsg.classList.add("modalErrorMsg");
-    errorMsg.innerText="Vous devez indiquer votre date de naissance, vous devez avoir 13 ans ou plus.";
-    birthDateInput.parentElement.appendChild(errorMsg);
-    birthDateInput.classList.add("text-control-wrong");
+  if(birthDateInput.parentNode.getAttribute("data-error-visible")!=true){
+    birthDateInput.parentNode.setAttribute("data-error-visible",true);
+    birthDateInput.parentNode.setAttribute("data-error","Vous devez indiquer votre date de naissance, vous devez avoir 13 ans ou plus.");
   }
 }
 
 // Adds an error message under the quantity input
 function errorQuantity(){
-  if(document.getElementById("errorQuantity")==null){
-    let errorMsg=document.createElement("p");
-    errorMsg.setAttribute("id","errorQuantity");
-    errorMsg.classList.add("modalErrorMsg");
-    errorMsg.innerText="Vous devez insérer un nombre dans ce champ.";
-    quantityInput.parentElement.appendChild(errorMsg);
-    quantityInput.classList.add("text-control-wrong");
+  if(quantityInput.parentNode.getAttribute("data-error-visible")!=true){
+    quantityInput.parentNode.setAttribute("data-error-visible",true);
+    quantityInput.parentNode.setAttribute("data-error","Vous devez insérer un nombre dans ce champ.");
   }
 }
 
 // Adds an error message under the quantity input
 function errorRadio(){
-  if(document.getElementById("errorRadio")==null){
-    let errorMsg=document.createElement("p");
-    errorMsg.setAttribute("id","errorRadio");
-    errorMsg.classList.add("modalErrorMsg");
-    errorMsg.innerText="Vous devez sélectionner une localisation.";
-    formDataRadios.before(errorMsg);
+  if(formDataRadios.getAttribute("data-error-visible")!=true){
+    formDataRadios.setAttribute("data-error-visible",true);
+    formDataRadios.setAttribute("data-error","Vous devez sélectionner une localisation.");
   }
 }
 
 // Adds an error message under the quantity input
 function errorCheckbox(){
-  if(document.getElementById("errorCheckbox")==null){
-    let errorMsg=document.createElement("p");
-    errorMsg.setAttribute("id","errorCheckbox");
-    errorMsg.classList.add("modalErrorMsg");
-    errorMsg.innerText="Vous devez vérifier que vous acceptez les termes et conditions.";
-    checkBoxRequired.parentElement.appendChild(errorMsg);
+  if(checkBoxRequired.parentNode.getAttribute("data-error-visible")!=true){
+    checkBoxRequired.parentNode.setAttribute("data-error-visible",true);
+    checkBoxRequired.parentNode.setAttribute("data-error","Vous devez vérifier que vous acceptez les termes et conditions.");
   }
 }
 
@@ -262,3 +243,11 @@ function validationMsg(){
 function eraseInputs(){
   form.style.display="none";
 }
+
+errorFirstname()
+errorLastname()
+errorEmail()
+errorBirthDate()
+errorQuantity()
+errorRadio()
+errorCheckbox()

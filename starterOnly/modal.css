@@ -304,16 +304,11 @@ input[data-error]::after {
   border: 0;
 }
 
-/* Modal errors */
-
-.modalErrorMsg{
-  font-size: 10px;
-  color:#FF4E60;
-  border-radius: 7px;
-}
-
-.text-control-wrong{
-  border: 2px solid #FF4E60;
+.closeBtn{
+  position: absolute;
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* custom select styles */
