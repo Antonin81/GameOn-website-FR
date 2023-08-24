@@ -140,13 +140,14 @@ function validateBirthDate(){
   let currentDate = new Date();
   let birthDate = new Date(birthDateInput.value);
 
-  const ageDifference = currentDate.getFullYear() - birthDate.getFullYear();
+  let ageDifference = currentDate.getFullYear() - birthDate.getFullYear();
 
   if (
     currentDate.getMonth() < birthDate.getMonth() ||
     (currentDate.getMonth() === birthDate.getMonth() &&
       currentDate.getDate() < birthDate.getDate())
   ) {
+    console.log(ageDifference)
     ageDifference--;
   }
 
@@ -159,6 +160,10 @@ function removeErrors(){
   errors.forEach(error => {
     error.remove();
   });
+  let errorInputs=document.querySelectorAll(".text-control-wrong");
+  errorInputs.forEach(errorInput => {
+    errorInput.classList.remove("text-control-wrong");
+  });
 }
 
 // Adds an error message under the firstname input
@@ -169,6 +174,7 @@ function errorFirstname(){
     errorMsg.classList.add("modalErrorMsg");
     errorMsg.innerText="Veuillez entrer 2 caractères ou plus pour le champ du Prénom.";
     firstnameInput.parentElement.appendChild(errorMsg);
+    firstnameInput.classList.add("text-control-wrong");
   }
 }
 
@@ -180,6 +186,7 @@ function errorLastname(){
     errorMsg.classList.add("modalErrorMsg");
     errorMsg.innerText="Veuillez entrer 2 caractères ou plus pour le champ du Nom.";
     lastnameInput.parentElement.appendChild(errorMsg);
+    lastnameInput.classList.add("text-control-wrong");
   }
 }
 
@@ -191,6 +198,7 @@ function errorEmail(){
     errorMsg.classList.add("modalErrorMsg");
     errorMsg.innerText="Votre adresse mail a un mauvais format.";
     emailInput.parentElement.appendChild(errorMsg);
+    emailInput.classList.add("text-control-wrong");
   }
 }
 
@@ -202,6 +210,7 @@ function errorBirthDate(){
     errorMsg.classList.add("modalErrorMsg");
     errorMsg.innerText="Vous devez indiquer votre date de naissance, vous devez avoir 13 ans ou plus.";
     birthDateInput.parentElement.appendChild(errorMsg);
+    birthDateInput.classList.add("text-control-wrong");
   }
 }
 
@@ -213,6 +222,7 @@ function errorQuantity(){
     errorMsg.classList.add("modalErrorMsg");
     errorMsg.innerText="Vous devez insérer un nombre dans ce champ.";
     quantityInput.parentElement.appendChild(errorMsg);
+    quantityInput.classList.add("text-control-wrong");
   }
 }
 
