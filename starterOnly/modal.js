@@ -25,6 +25,7 @@ const birthDateInput = document.getElementById("birthdate");
 const quantityInput = document.getElementById("quantity");
 const form = document.querySelector("form");
 const modalBody = document.querySelector(".modal-body");
+const AGE_LIMIT = 13;
 
 // launches modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -43,12 +44,11 @@ function validate(){
     "checkBoxNotRequired":checkBoxNotRequired.checked
   }
   if (validateFirstname() && validateLastname() && validateEmail() && validateBirthDate() && validateQuantity() && validateRadioChecked() && checkBoxRequired.checked){
-    console.log(result);
+    console.log("TOUT EST VALIDE ",result);
     removeErrors();
     validationMsg();
     closeButton();
     eraseInputs();
-    console.log("TOUT EST VALIDE");
   } else {
 
     removeErrors();
@@ -152,16 +152,11 @@ function validateBirthDate(){
 
   let ageDifference = currentDate.getFullYear() - birthDate.getFullYear();
 
-  if (
-    currentDate.getMonth() < birthDate.getMonth() ||
-    (currentDate.getMonth() === birthDate.getMonth() &&
-      currentDate.getDate() < birthDate.getDate())
-  ) {
-    console.log(ageDifference)
+  if ( currentDate.getMonth() < birthDate.getMonth() || (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDate() < birthDate.getDate())) {
     ageDifference--;
   }
 
-  return birthDateInput.value!="" && ageDifference >= 13;
+  return birthDateInput.value!="" && ageDifference >= AGE_LIMIT;
 }
 
 // Removes error messages
