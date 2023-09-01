@@ -24,6 +24,8 @@ const closeModalBtn = document.querySelector('.close');
 const birthDateInput = document.getElementById("birthdate");
 const quantityInput = document.getElementById("quantity");
 const form = document.querySelector("form");
+const modalBody = document.querySelector(".modal-body");
+const AGE_LIMIT = 13;
 
 // launches modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -42,11 +44,11 @@ function validate(){
     "checkBoxNotRequired":checkBoxNotRequired.checked
   }
   if (validateFirstname() && validateLastname() && validateEmail() && validateBirthDate() && validateQuantity() && validateRadioChecked() && checkBoxRequired.checked){
-    console.log(result);
+    console.log("TOUT EST VALIDE ",result);
     removeErrors();
     validationMsg();
-    emptyInputs();
-    console.log("TOUT EST VALIDE");
+    closeButton();
+    eraseInputs();
   } else {
 
     removeErrors();
@@ -70,12 +72,21 @@ function validate(){
       errorRadio();
     }
     if(!checkBoxRequired.checked){
-      console.log('?');
       errorCheckbox();
     }
     console.log("INVALIDE");
   }
 }
+
+// creates a button able to close the modal after validation
+function closeButton(){
+  let closeButton = document.createElement("button");
+  closeButton.setAttribute("class","btn-submit closeBtn");
+  closeButton.setAttribute("onClick","closeModal()");
+  closeButton.innerText="Fermer";
+  modalBody.append(closeButton);
+}
+
 
 // close modal event
 closeModalBtn.addEventListener("click", ()=>{
@@ -115,7 +126,6 @@ function validateQuantity(){
 // closes modal form
 function closeModal(){
   modalbg.style.display = "none";
-  document.getElementById("validationMsg").remove();
 }
 
 // Verifies that the firstname input has something and more than 2 characters
@@ -137,104 +147,79 @@ function validateEmail(){
 
 // Verifies that there is a birth date
 function validateBirthDate(){
-  let currentDate = Date();
-  let birthDate = Date(birthDateInput.calue);
+  let currentDate = new Date();
+  let birthDate = new Date(birthDateInput.value);
 
-  const ageDifference = currentDate.getFullYear() - birthDate.getFullYear();
+  let ageDifference = currentDate.getFullYear() - birthDate.getFullYear();
 
-  if (
-    currentDate.getMonth() < birthDate.getMonth() ||
-    (currentDate.getMonth() === birthDate.getMonth() &&
-      currentDate.getDate() < birthDate.getDate())
-  ) {
+  if ( currentDate.getMonth() < birthDate.getMonth() || (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDate() < birthDate.getDate())) {
     ageDifference--;
   }
 
-  return birthDateInput.value!="" && ageDiff >= 13;
+  return birthDateInput.value!="" && ageDifference >= AGE_LIMIT;
 }
 
 // Removes error messages
 function removeErrors(){
-  let errors=document.querySelectorAll(".modalErrorMsg");
+  let errors=document.querySelectorAll("[data-error-visible=true]");
   errors.forEach(error => {
-    error.remove();
+    error.setAttribute("data-error-visible","false");
   });
 }
 
 // Adds an error message under the firstname input
 function errorFirstname(){
-  if(document.getElementById("errorFirstname")==null){
-    let errorMsg=document.createElement("p");
-    errorMsg.setAttribute("id","errorFirstname");
-    errorMsg.classList.add("modalErrorMsg");
-    errorMsg.innerText="Veuillez entrer 2 caractères ou plus pour le champ du Prénom.";
-    firstnameInput.parentElement.appendChild(errorMsg);
+  if(firstnameInput.parentNode.getAttribute("data-error-visible")!=true){
+    firstnameInput.parentNode.setAttribute("data-error-visible",true);
+    firstnameInput.parentNode.setAttribute("data-error","Veuillez entrer 2 caractères ou plus pour le champ du Prénom.");
   }
 }
 
 // Adds an error message under the lastname input
 function errorLastname(){
-  if(document.getElementById("errorLastname")==null){
-    let errorMsg=document.createElement("p");
-    errorMsg.setAttribute("id","errorLastname");
-    errorMsg.classList.add("modalErrorMsg");
-    errorMsg.innerText="Veuillez entrer 2 caractères ou plus pour le champ du Nom.";
-    lastnameInput.parentElement.appendChild(errorMsg);
+  if(lastnameInput.parentNode.getAttribute("data-error-visible")!=true){
+    lastnameInput.parentNode.setAttribute("data-error-visible",true);
+    lastnameInput.parentNode.setAttribute("data-error","Veuillez entrer 2 caractères ou plus pour le champ du Nom.");
   }
 }
 
 // Adds an error message under the email input
 function errorEmail(){
-  if(document.getElementById("errorEmail")==null){
-    let errorMsg=document.createElement("p");
-    errorMsg.setAttribute("id","errorEmail");
-    errorMsg.classList.add("modalErrorMsg");
-    errorMsg.innerText="Votre adresse mail a un mauvais format.";
-    emailInput.parentElement.appendChild(errorMsg);
+  if(emailInput.parentNode.getAttribute("data-error-visible")!=true){
+    emailInput.parentNode.setAttribute("data-error-visible",true);
+    emailInput.parentNode.setAttribute("data-error","Votre adresse mail a un mauvais format.");
   }
 }
 
 // Adds an error message under the birthDate input
 function errorBirthDate(){
-  if(document.getElementById("errorBirthDate")==null){
-    let errorMsg=document.createElement("p");
-    errorMsg.setAttribute("id","errorBirthDate");
-    errorMsg.classList.add("modalErrorMsg");
-    errorMsg.innerText="Vous devez indiquer votre date de naissance, vous devez avoir 13 ans ou plus.";
-    birthDateInput.parentElement.appendChild(errorMsg);
+  if(birthDateInput.parentNode.getAttribute("data-error-visible")!=true){
+    birthDateInput.parentNode.setAttribute("data-error-visible",true);
+    birthDateInput.parentNode.setAttribute("data-error","Vous devez indiquer votre date de naissance, vous devez avoir 13 ans ou plus.");
   }
 }
 
 // Adds an error message under the quantity input
 function errorQuantity(){
-  if(document.getElementById("errorQuantity")==null){
-    let errorMsg=document.createElement("p");
-    errorMsg.setAttribute("id","errorQuantity");
-    errorMsg.classList.add("modalErrorMsg");
-    errorMsg.innerText="Vous devez insérer un nombre dans ce champ.";
-    quantityInput.parentElement.appendChild(errorMsg);
+  if(quantityInput.parentNode.getAttribute("data-error-visible")!=true){
+    quantityInput.parentNode.setAttribute("data-error-visible",true);
+    quantityInput.parentNode.setAttribute("data-error","Vous devez insérer un nombre dans ce champ.");
   }
 }
 
 // Adds an error message under the quantity input
 function errorRadio(){
-  if(document.getElementById("errorRadio")==null){
-    let errorMsg=document.createElement("p");
-    errorMsg.setAttribute("id","errorRadio");
-    errorMsg.classList.add("modalErrorMsg");
-    errorMsg.innerText="Vous devez sélectionner une localisation.";
-    formDataRadios.before(errorMsg);
+  if(formDataRadios.getAttribute("data-error-visible")!=true){
+    formDataRadios.setAttribute("data-error-visible",true);
+    formDataRadios.setAttribute("data-error","Vous devez sélectionner une localisation.");
   }
 }
 
 // Adds an error message under the quantity input
 function errorCheckbox(){
-  if(document.getElementById("errorCheckbox")==null){
-    let errorMsg=document.createElement("p");
-    errorMsg.setAttribute("id","errorCheckbox");
-    errorMsg.classList.add("modalErrorMsg");
-    errorMsg.innerText="Vous devez vérifier que vous acceptez les termes et conditions.";
-    checkBoxRequired.parentElement.appendChild(errorMsg);
+  if(checkBoxRequired.parentNode.getAttribute("data-error-visible")!=true){
+    checkBoxRequired.parentNode.setAttribute("data-error-visible",true);
+    checkBoxRequired.parentNode.setAttribute("data-error","Vous devez vérifier que vous acceptez les termes et conditions.");
   }
 }
 
@@ -243,26 +228,12 @@ function validationMsg(){
   let validationMsg = document.createElement("div");
   validationMsg.setAttribute("id","validationMsg");
   let msg = document.createElement("p");
-  msg.innerText="Merci ! Votre réservation a été reçue.";
+  msg.innerText="Merci pour votre inscription";
   validationMsg.appendChild(msg);
-  form.prepend(validationMsg)
+  modalBody.append(validationMsg)
 }
 
-// empties the inputs
-function emptyInputs(){
-  firstnameInput.value="";
-  lastnameInput.value="";
-  emailInput.value="";
-  birthDateInput.value="";
-  quantityInput.value="";
-  uncheckRadios();
-}
-
-// unchecks the checked radio
-function uncheckRadios(){
-  for (radio of radios){
-    if(radio.checked){
-      radio.checked=false;
-    }
-  }
+// erases the inputs
+function eraseInputs(){
+  form.style.display="none";
 }
